@@ -1,7 +1,7 @@
-FROM maven:3.9.5-amazoncorretto-17 as build
+FROM maven:3.9.5-amazoncorretto-17-al2023 as build
 
 WORKDIR /root/build
-# cache dependencies (this can take a long time)
+# download dependencies (this can take a long time)
 COPY pom.xml .
 RUN mvn -B dependency:resolve-plugins dependency:resolve
 # build the jar
