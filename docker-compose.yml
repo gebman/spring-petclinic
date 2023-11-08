@@ -6,7 +6,9 @@ services:
     image: spring-petclinic:latest
     ports:
       - "8080:8080"
-    command: [ "java", "-jar", "-Dspring.profiles.active=postgres", "-Dspring.datasource.url=jdbc:postgresql://postgres/petclinic", "petclinic.jar"]
+    command: [ "java", "-jar", "-Dspring.profiles.active=postgres", "petclinic.jar"]
+    env_file:
+      - postgres.env
     depends_on:
       - postgres
   postgres:
@@ -14,7 +16,5 @@ services:
     volumes:
       - type: volume
         target: /var/lib/postgresql/data
-    environment:
-      - POSTGRES_PASSWORD=petclinic
-      - POSTGRES_USER=petclinic
-      - POSTGRES_DB=petclinic
+    env_file:
+      - postgres.env
