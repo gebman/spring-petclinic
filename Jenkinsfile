@@ -40,5 +40,5 @@ pipeline{
             archiveArtifacts artifacts: 'target/checkstyle-result.xml', fingerprint: true
         }
     }
-
+}
 }
