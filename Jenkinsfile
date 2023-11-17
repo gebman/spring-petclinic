@@ -24,7 +24,13 @@ pipeline{
         }
         stage('Contenerize'){
             steps{
-                    sh 'docker buildx build -t spring-petclinic:latest'
+                script{
+                        sh 'export PATH="$PATH:/usr/local/bin"'
+                        docker.withRegistry("https://docker.io/mlabecki/spring-petclinic", 'docker_login'){
+                        def image = docker.build("spring-petclinic:latest")
+                        image.push()
+                    }
+                }
             }
         }
     }
