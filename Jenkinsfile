@@ -35,10 +35,10 @@ pipeline{
                 sh 'docker version'
         }
     }
+    }
     post{
         always{
             archiveArtifacts artifacts: 'target/checkstyle-result.xml', fingerprint: true
         }
     }
-}
 }
