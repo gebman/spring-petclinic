@@ -25,7 +25,7 @@ pipeline{
         stage('Contenerize'){
             steps{
                 script{
-                    docker.withRegistry("docker.io/mlabecki/spring-petclinic", 'docker_login'){
+                    docker.withRegistry("https://docker.io/mlabecki/spring-petclinic", 'docker_login'){
                         docker.build("spring-petclinic").push("latest")
                     }
                 }
