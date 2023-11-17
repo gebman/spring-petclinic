@@ -28,7 +28,7 @@ pipeline{
     post{
         always{
             archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
-            junit 'target/checkstyle-result.xml'
+            archiveArtifacts artifacts: 'target/checkstyle-result.xml', fingerprint: true
         }
     }
 
