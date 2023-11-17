@@ -32,7 +32,8 @@ pipeline{
                 //     }
                 // }
                 sh 'export PATH="$PATH:/usr/local/bin"'
-                sh 'docker version'
+                sh 'echo $PATH'
+                sh '/usr/local/bin/docker version'
         }
     }
     }
