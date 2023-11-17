@@ -23,8 +23,10 @@ pipeline{
 
         }
         stage('Contenerize'){
-            docker.withRegistry("docker.io/mlabecki/spring-petclinic", 'docker_login'){
-                docker.build("spring-petclinic").push("latest")
+            steps{
+                docker.withRegistry("docker.io/mlabecki/spring-petclinic", 'docker_login'){
+                    docker.build("spring-petclinic").push("latest")
+                }
             }
         }
     }
