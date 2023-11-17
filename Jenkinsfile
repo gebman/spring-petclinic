@@ -2,7 +2,6 @@ pipeline{
     agent any
     tools {
         maven 'm3'
-        docker 'docker'
     }
    
     stages{
@@ -24,7 +23,7 @@ pipeline{
 
         }
         stage('Contenerize'){
-            docker.withRegistry("docker.io/mlabecki/spring-petclinic", docker_login){
+            docker.withRegistry("docker.io/mlabecki/spring-petclinic", 'docker_login'){
                 docker.build("spring-petclinic").push("latest")
             }
         }
