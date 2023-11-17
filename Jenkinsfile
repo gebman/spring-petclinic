@@ -24,13 +24,14 @@ pipeline{
         }
         stage('Contenerize'){
             steps{
-                script{
-                        sh 'export PATH="$PATH:/usr/local/bin"'
-                        docker.withRegistry("https://docker.io/mlabecki/spring-petclinic", 'docker_login'){
-                        def image = docker.build("spring-petclinic:latest")
-                        image.push()
-                    }
-                }
+                sh 'docker --help'
+                // script{
+                //         sh 'export PATH="$PATH:/usr/local/bin"'
+                //         docker.withRegistry("https://docker.io/mlabecki/spring-petclinic", 'docker_login'){
+                //         def image = docker.build("spring-petclinic:latest")
+                //         image.push()
+                //     }
+                // }
             }
         }
     }
