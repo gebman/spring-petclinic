@@ -33,7 +33,7 @@ pipeline{
                 // }
                 sh 'export PATH="$PATH:/usr/local/bin"'
                 sh 'echo $PATH'
-                sh '/usr/local/bin/docker version'
+                sh 'docker version'
         }
     }
     }
