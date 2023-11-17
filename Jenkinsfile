@@ -24,7 +24,12 @@ pipeline{
         }
         stage('Contenerize'){
             steps{
-                    sh "docker version"
+                script{
+                        withDockerRegistry(credentialsId: 'docker_login', url: 'https://docker.io/mlabecki/spring-petclinic') {
+                            def image = docker.build("spring-petclinic:latest")
+                            image.push()
+                        }                     
+                    }
                 }
         }
     }
