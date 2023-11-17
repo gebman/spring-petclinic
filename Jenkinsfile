@@ -5,9 +5,20 @@ pipeline{
     }
     stages{
         
+        stage('Checkstyle'){
+            steps{
+                sh "mvn clean checkstyle:checkstyle"
+                
+            }
+        }
+        stage("Test"){
+            steps{
+                sh "mvn clean test"
+            }
+        }
         stage('Build'){
             steps{
-            sh "mvn clean package"
+            sh "mvn clean package -DskipTests"
             }
         }
         // stage('Contenerize'){
