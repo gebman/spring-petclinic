@@ -3,6 +3,7 @@ pipeline{
     tools {
         maven 'm3'
     }
+   
     stages{
         
         stage('Checkstyle'){
@@ -21,13 +22,16 @@ pipeline{
             }
 
         }
-        // stage('Contenerize'){
-
-        // }
+        stage('Contenerize'){
+            steps{
+                docker.withRegistry("docker.io/mlabecki/spring-petclinic", docker_login){
+                    docker.build("spring-petclinic").push("latest")
+                }
+            }
+        }
     }
     post{
         always{
-            archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             archiveArtifacts artifacts: 'target/checkstyle-result.xml', fingerprint: true
         }
     }
