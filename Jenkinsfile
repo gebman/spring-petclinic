@@ -27,7 +27,8 @@ pipeline{
             steps{
                 script{
                     docker.withRegistry("https://docker.io/mlabecki/spring-petclinic", 'docker_login'){
-                        docker.build("spring-petclinic").push("latest")
+                        sh 'docker build -t mlabecki/spring-petclinic:latest'
+                        sh 'docker push mlabecki/spring-petclinic:latest'
                     }
                 }
             }
