@@ -8,7 +8,6 @@ pipeline{
         stage('Checkstyle'){
             steps{
                 sh "mvn clean checkstyle:checkstyle"
-                
             }
         }
         stage("Test"){
@@ -18,13 +17,19 @@ pipeline{
         }
         stage('Build'){
             steps{
-            sh "mvn clean package -DskipTests"
+                sh "mvn clean package -DskipTests"
             }
+
         }
         // stage('Contenerize'){
 
         // }
     }
-
+    post{
+        always{
+            archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+            junit 'target/checkstyle-result.xml'
+        }
+    }
 
 }
