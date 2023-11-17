@@ -25,7 +25,6 @@ pipeline{
         stage('Contenerize'){
             steps{
                     sh 'docker buildx build -t spring-petclinic:latest'
-                }
             }
         }
     }
