@@ -26,9 +26,8 @@ pipeline{
             steps{
                 script{
                         withDockerRegistry(credentialsId: 'docker_login', url: 'https://docker.io/mlabecki/spring-petclinic') {
-                            def image = docker.image('amazoncorretto:17-al2-native-headless').inside {
-                                sh 'ls'
-                            }
+                            def image = docker.build "mlabecki/spring-petclinic:latest"
+                            image.push()
                         }                     
                     }
                 }
