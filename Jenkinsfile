@@ -26,7 +26,7 @@ pipeline{
             steps{
                 script{
                         withDockerRegistry(credentialsId: 'docker_login', url: 'https://docker.io/mlabecki/spring-petclinic') {
-                            sh "docker build -t mlabecki/spring-petclinic:${env.BUILD_ID} ."
+                            sh "export HOST_PWD=$PWD && docker build -t mlabecki/spring-petclinic:${env.BUILD_ID} ."
                             sh "docker push mlabecki/spring-petclinic:${env.BUILD_ID}"
                         }                     
                     }
