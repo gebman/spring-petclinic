@@ -22,10 +22,10 @@ pipeline{
             }
 
         }
-        stage('Contenerize'){
+        stage('Containerize'){
             steps{
                 script{
-                        withDockerRegistry(credentialsId: 'docker_login', url: 'https://docker.io/mlabecki/spring-petclinic') {
+                        withDockerRegistry(credentialsId: 'docker_login', url: 'https://registry.hub.docker.com/v2/mlabecki/spring-petclinic') {
                             sh """
                             docker build -t mlabecki/spring-petclinic:${env.BUILD_ID} . 
                             docker push mlabecki/spring-petclinic:${env.BUILD_ID}
