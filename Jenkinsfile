@@ -11,11 +11,11 @@ pipeline{
                 sh "mvn clean checkstyle:checkstyle"
             }
         }
-        // stage("Test"){
-        //     steps{
-        //         sh "mvn clean test"
-        //     }
-        // }
+        stage("Test"){
+            steps{
+                sh "mvn clean test"
+            }
+        }
         stage('Build'){
             steps{
                 sh "mvn clean package -DskipTests"
@@ -26,8 +26,9 @@ pipeline{
             steps{
                 script{
                         withDockerRegistry(credentialsId: 'docker_login', url: 'https://docker.io/mlabecki/spring-petclinic') {
-                            def image = docker.build("spring-petclinic:latest")
-                            image.push()
+                            def image = docker.image('amazoncorretto:17-al2-native-headless').inside {
+                                sh 'ls'
+                            }
                         }                     
                     }
                 }
