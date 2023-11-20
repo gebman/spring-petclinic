@@ -27,8 +27,8 @@ pipeline{
                 script{
                         withDockerRegistry(credentialsId: 'docker_login') {
                             sh """
-                            docker build -t mlabecki/main:${env.BUILD_ID} . 
-                            docker push mlabecki/main:${env.BUILD_ID}
+                            docker build -t mlabecki/spring-petclinic:${env.BUILD_ID} . 
+                            docker push mlabecki/spring-petclinic:${env.BUILD_ID}
                             """
                         }                     
                     }
