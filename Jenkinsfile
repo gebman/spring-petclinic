@@ -26,8 +26,8 @@ pipeline{
             steps{
                 script{
                         withDockerRegistry(credentialsId: 'docker_login', url: 'https://docker.io/mlabecki/spring-petclinic') {
-                            sh 'docker buildx build -t mlabecki/spring-petclinic:latest'
-                            sh 'docker push mlabecki/spring-petclinic:latest'
+                            sh "docker build -t mlabecki/spring-petclinic:${env.BUILD_ID} ."
+                            sh "docker push mlabecki/spring-petclinic:${env.BUILD_ID}"
                         }                     
                     }
                 }
