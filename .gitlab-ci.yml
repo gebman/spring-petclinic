@@ -33,8 +33,6 @@ variables:
     --fail-at-end
     --show-version
     --no-transfer-progress
-    -DinstallAtEnd=true
-    -DdeployAtEnd=true
 
 # This template uses the latest Maven 3 release, e.g., 3.8.6, and OpenJDK 8 (LTS)
 # for verifying and deploying images
@@ -69,10 +67,16 @@ verify:jdk17:
 # For deploying packages to GitLab's Maven Repository: See https://docs.gitlab.com/ee/user/packages/maven_repository/index.html#create-maven-packages-with-gitlab-cicd for more details.
 # Please note: The GitLab Maven Repository is currently only available in GitLab Premium / Ultimate.
 # For `master` or `main` branch run `mvn deploy` automatically.
-deploy:jdk8:
+deploy:jdk17:
   stage: deploy
   script:
     - mvn $MAVEN_CLI_OPTS package
+  artifacts:
+    untracked: false
+    when: on_success
+    expire_in: 30 days
+    paths:
+      - target/*.jar
   only:
     variables:
       - $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
