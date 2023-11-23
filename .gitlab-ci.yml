@@ -1,0 +1,40 @@
+image: maven:3.9.5-amazoncorretto-17
+stages:
+  - checkstyle
+  - test
+  - build
+  - build_image
+  - push_image
+variables:
+  MAVEN_CLI_OPTS: >-
+    --batch-mode
+    --errors
+    --fail-at-end
+    --show-version
+    --no-transfer-progress
+    -Dcheckstyle.skip
+  MAVEN_OPTS: >-
+    -Dhttps.protocols=TLSv1.2
+    -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository
+    -Dorg.slf4j.simpleLogger.showDateTime=true
+    -Djava.awt.headless=true
+
+cache:
+  paths:
+    - .m2/repository
+
+checkstyle:
+  stage: checkstyle
+  script:
+    - "mvn -b checkstyle:checkstyle"
+test:
+  stage: test
+  script:
+    - mvn $MAVEN_CLI_OPTS test
+build:jdk17:
+  stage: build
+  script:
+    - mvn $MAVEN_CLI_OPTS -DskipTests package
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
