@@ -44,4 +44,4 @@ Build image:
   services:
     - docker:dind
   script:
-    docker build -t spring-petclinic
+    docker build -t spring-petclinic .
