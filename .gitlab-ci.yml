@@ -1,5 +1,10 @@
 image: maven:3.9.5-amazoncorretto-17
-
+stages:
+  - checkstyle
+  - test
+  - build
+  - build_image
+  - push_image
 variables:
   MAVEN_CLI_OPTS: >-
     --batch-mode
@@ -14,21 +19,22 @@ variables:
     -Dorg.slf4j.simpleLogger.showDateTime=true
     -Djava.awt.headless=true
 
-
 cache:
   paths:
     - .m2/repository
 
-deploy:jdk17:
-  stage: deploy
+checkstyle:
+  stage: checkstyle
   script:
-    - mvn $MAVEN_CLI_OPTS package
-  artifacts:
-    untracked: false
-    when: on_success
-    expire_in: 30 days
-    paths:
-      - target/*.jar
+    - mvn -b checkstyle:checkstyle
+test:
+  stage: test
+  script:
+    - mvn $MAVEN_CLI_OPTS test
+build:jdk17:
+  stage: build
+  script:
+    - mvn $MAVEN_CLI_OPTS -DskipTests package
   only:
     variables:
       - $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
