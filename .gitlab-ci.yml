@@ -27,10 +27,12 @@ checkstyle:
   stage: checkstyle
   script:
     - "mvn --batch-mode clean checkstyle:checkstyle"
+
 test:
   stage: test
   script:
     - mvn $MAVEN_CLI_OPTS clean test
+
 build:
   stage: build
   script:
@@ -38,10 +40,17 @@ build:
   only:
     variables:
       - $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+
 Build image:
   stage: build_image
-  image: docker:latest
-  services:
-    - docker:dind
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
   script:
-    docker build -t spring-petclinic .
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+      --destination "${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHORT_SHA}"
+  rules:
+    - if: $CI_COMMIT_SHORT_SHA
