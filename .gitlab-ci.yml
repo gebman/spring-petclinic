@@ -3,7 +3,8 @@ image: maven:3.9.5-amazoncorretto-17
 variables:
   MAVEN_CLI_OPTS: >-
     --batch-mode
-
+  MAVEN_OPTS: >-
+    -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository
 
 cache:
   paths:
