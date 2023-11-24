@@ -49,8 +49,8 @@ Build image:
     entrypoint: [""]
   script:
     - 'echo "{ \"auths\": { \"localhost:8082/spring-petclinic\": { \"auth\": \"${NEXUS_LOGIN}\" } } }" > /kaniko/.docker/config.json'
-    - /kaniko/executor
     - sleep 60
+    - /kaniko/executor
       --insecure
       --context "${CI_PROJECT_DIR}"
       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
