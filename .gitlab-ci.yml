@@ -47,7 +47,7 @@ Build:
 Push and build image:
   stage: push_image
   image:
-    name: gcr.io/kaniko-project/executor:debug
+    name: gcr.io/kaniko-project/executor:v1.18.0-debug
     entrypoint: [""]
   script:
     - 'echo "{ \"auths\": { \"172.17.0.3:8082\": { \"auth\": \"${NEXUS_LOGIN}\" } } }" > /kaniko/.docker/config.json'
