@@ -23,21 +23,21 @@ cache:
   paths:
     - .m2/repository
 
-Checkstyle:
+checkstyle-job:
   stage: checkstyle
   script:
     - "mvn -B checkstyle:checkstyle"
   rules:
   - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
-Test:
+test-job:
   stage: test
   script:
     - mvn $MAVEN_CLI_OPTS clean test
   rules:
   - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
-Build jar:
+build_jar:
   stage: build
   script:
     - mvn $MAVEN_CLI_OPTS -DskipTests clean package
@@ -49,13 +49,13 @@ Build jar:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
-Push and build image (merge request):
+push_image_mr:
   stage: push_image
   image:
     name: gcr.io/kaniko-project/executor:v1.18.0-debug
     entrypoint: [""]
   dependencies:
-    - "Build jar"
+    - "build_jar"
   before_script:
     - 'echo "{ \"auths\": { \"${CONTAINER_REPO}\": { \"auth\": \"${NEXUS_LOGIN}\" } } }" > /kaniko/.docker/config.json'
   script:
@@ -67,10 +67,10 @@ Push and build image (merge request):
   rules:
     - if: $CI_COMMIT_BRANCH == 'merge_request_event'
 
-Push and build image (main branch):
+push_image_main:
   stage: push_image
   dependencies:
-    - "Build jar"
+    - "build_jar"
   image:
     name: gcr.io/kaniko-project/executor:v1.18.0-debug
     entrypoint: [""]
