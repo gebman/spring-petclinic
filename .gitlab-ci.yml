@@ -3,7 +3,6 @@ stages:
   - checkstyle
   - test
   - build
-  - build_image
   - push_image
 variables:
   MAVEN_CLI_OPTS: >-
@@ -33,17 +32,20 @@ cache:
 #   script:
 #     - mvn $MAVEN_CLI_OPTS clean test
 
-build:
+Build:
   stage: build
   script:
     - mvn $MAVEN_CLI_OPTS -DskipTests clean package
+  artifacts:
+    untracked: false
+    when: on_success
   only:
     variables:
       - $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
 
-Build image:
-  stage: build_image
+Push and build image:
+  stage: push_image
   image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
