@@ -51,7 +51,6 @@ Push and build image:
     entrypoint: [""]
   script:
     - 'echo "{ \"auths\": { \"172.17.0.3:8082\": { \"auth\": \"${NEXUS_LOGIN}\" } } }" > /kaniko/.docker/config.json'
-    - mv target/*.jar target/petclinic.jar
     - /kaniko/executor
       --insecure
       --context "${CI_PROJECT_DIR}"
