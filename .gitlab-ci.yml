@@ -12,7 +12,6 @@ variables:
     --fail-at-end
     --show-version
     --no-transfer-progress
-    -Dcheckstyle.skip
   MAVEN_OPTS: >-
     -Dhttps.protocols=TLSv1.2
     -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository
@@ -26,7 +25,7 @@ cache:
 Checkstyle:
   stage: checkstyle
   script:
-    - "mvn --batch-mode clean checkstyle:checkstyle"
+    - "mvn $MAVEN_CLI_OPTS checkstyle:checkstyle"
   rules:
   - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
