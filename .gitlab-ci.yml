@@ -48,10 +48,10 @@ Build image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
   script:
-    - docker version
-    # - /kaniko/executor
-    #   --context "${CI_PROJECT_DIR}"
-    #   --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
-    #   --destination "http://localhost:28081/repository/main:${CI_COMMIT_SHORT_SHA}"
+    - curl -u "${NEXUS_USER}:${NEXUS_PASS}" http://localhost:28081/repository/main/
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+      --destination "http://localhost:28081/repository/main:${CI_COMMIT_SHORT_SHA}"
   rules:
     - if: $CI_COMMIT_SHORT_SHA
