@@ -49,7 +49,6 @@ Build image:
     entrypoint: [""]
   script:
     - 'echo "{ \"auths\": { \"http://localhost:8082\": { \"auth\": \"${NEXUS_LOGIN}\" } } }" > /kaniko/.docker/config.json'
-    - sleep 60
     - /kaniko/executor
       --insecure
       --context "${CI_PROJECT_DIR}"
