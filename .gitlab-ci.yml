@@ -22,15 +22,19 @@ cache:
   paths:
     - .m2/repository
 
-# Checkstyle:
-#   stage: checkstyle
-#   script:
-#     - "mvn --batch-mode clean checkstyle:checkstyle"
+Checkstyle:
+  stage: checkstyle
+  script:
+    - "mvn --batch-mode clean checkstyle:checkstyle"
+  rules:
+  - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
-# Test:
-#   stage: test
-#   script:
-#     - mvn $MAVEN_CLI_OPTS clean test
+Test:
+  stage: test
+  script:
+    - mvn $MAVEN_CLI_OPTS clean test
+  rules:
+  - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
 Build jar:
   stage: build
