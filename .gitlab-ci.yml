@@ -48,7 +48,7 @@ Build image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
   script:
-    - "echo { 'auths': { 'localhost:8082': { 'auth': '${NEXUS_LOGIN}' } } } > /kaniko/.docker/config.json"
+    - "echo \"{ 'auths': { 'localhost:8082': { 'auth': '${NEXUS_LOGIN}' } } }\" > /kaniko/.docker/config.json"
     - /kaniko/executor
       --context "${CI_PROJECT_DIR}"
       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
