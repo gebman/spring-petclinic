@@ -41,6 +41,9 @@ Build jar:
   stage: build
   script:
     - mvn $MAVEN_CLI_OPTS -DskipTests clean package
+  artifacts:
+    paths: 
+      - target/*.jar
   only:
     variables:
       - $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
