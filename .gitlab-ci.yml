@@ -54,6 +54,8 @@ Push and build image (merge request):
   image:
     name: gcr.io/kaniko-project/executor:v1.18.0-debug
     entrypoint: [""]
+  dependencies:
+    - "Build jar"
   before_script:
     - 'echo "{ \"auths\": { \"${CONTAINER_REPO}\": { \"auth\": \"${NEXUS_LOGIN}\" } } }" > /kaniko/.docker/config.json'
   script:
