@@ -48,6 +48,7 @@ Build image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
   script:
+    - mv "${CI_PROJECT_DIR}/kaniko_config.conf" /kaniko/.docker/config.json
     - /kaniko/executor
       --context "${CI_PROJECT_DIR}"
       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
