@@ -66,6 +66,8 @@ Push and build image (merge request):
 
 Push and build image (main branch):
   stage: push_image
+  dependencies:
+    - "Build jar"
   image:
     name: gcr.io/kaniko-project/executor:v1.18.0-debug
     entrypoint: [""]
