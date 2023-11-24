@@ -45,22 +45,40 @@ Build jar:
     paths: 
       - target/*.jar
     expire_in: 10 minutes
-  only:
-    variables:
-      - $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
-
-Push and build image:
+Push and build image (merge request):
   stage: push_image
   image:
     name: gcr.io/kaniko-project/executor:v1.18.0-debug
     entrypoint: [""]
-  script:
+  before_script:
     - 'echo "{ \"auths\": { \"${CONTAINER_REPO}\": { \"auth\": \"${NEXUS_LOGIN}\" } } }" > /kaniko/.docker/config.json'
+  script:
+    - /kaniko/executor
+      --insecure
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+      --destination "${CONTAINER_REPO}/mr:${CI_COMMIT_SHORT_SHA}"
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'merge_request_event'
+
+Push and build image (main branch):
+  stage: push_image
+  image:
+    name: gcr.io/kaniko-project/executor:v1.18.0-debug
+    entrypoint: [""]
+  before_script:
+    - 'echo "{ \"auths\": { \"${CONTAINER_REPO}\": { \"auth\": \"${NEXUS_LOGIN}\" } } }" > /kaniko/.docker/config.json'
+  script:
+    - /kaniko/executor
+      --insecure
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+      --destination "${CONTAINER_REPO}/main:latest"
     - /kaniko/executor
       --insecure
       --context "${CI_PROJECT_DIR}"
       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
       --destination "${CONTAINER_REPO}/main:${CI_COMMIT_SHORT_SHA}"
   rules:
-    - if: $CI_COMMIT_SHORT_SHA
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
