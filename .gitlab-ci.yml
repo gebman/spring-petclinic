@@ -50,8 +50,9 @@ Build image:
   script:
     - 'echo "{ \"auths\": { \"localhost:8082\": { \"auth\": \"${NEXUS_LOGIN}\" } } }" > /kaniko/.docker/config.json'
     - /kaniko/executor
+      --insecure
       --context "${CI_PROJECT_DIR}"
       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
-      --destination "http://localhost:8082/main:latest"
+      --destination "localhost:8082/main:latest"
   rules:
     - if: $CI_COMMIT_SHORT_SHA
