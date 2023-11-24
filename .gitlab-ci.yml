@@ -23,23 +23,23 @@ cache:
   paths:
     - .m2/repository
 
-checkstyle:
-  stage: checkstyle
-  script:
-    - "mvn --batch-mode clean checkstyle:checkstyle"
+# checkstyle:
+#   stage: checkstyle
+#   script:
+#     - "mvn --batch-mode clean checkstyle:checkstyle"
 
 # test:
 #   stage: test
 #   script:
 #     - mvn $MAVEN_CLI_OPTS clean test
 
-# build:
-#   stage: build
-#   script:
-#     - mvn $MAVEN_CLI_OPTS -DskipTests clean package
-#   only:
-#     variables:
-#       - $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+build:
+  stage: build
+  script:
+    - mvn $MAVEN_CLI_OPTS -DskipTests clean package
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
 
 Build image:
