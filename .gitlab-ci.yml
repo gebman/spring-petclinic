@@ -44,6 +44,7 @@ Build jar:
   artifacts:
     paths: 
       - target/*.jar
+    expire_in: 10 minutes
   only:
     variables:
       - $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
