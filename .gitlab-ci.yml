@@ -52,6 +52,6 @@ Build image:
     - /kaniko/executor
       --context "${CI_PROJECT_DIR}"
       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
-      --destination "localhost:8082/main:latest"
+      --destination "http://localhost:8082/main:latest"
   rules:
     - if: $CI_COMMIT_SHORT_SHA
