@@ -37,8 +37,8 @@ Build:
   script:
     - mvn $MAVEN_CLI_OPTS -DskipTests clean package
   artifacts:
-    untracked: false
-    when: on_success
+    paths:
+      - "target/*.jar"
   only:
     variables:
       - $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
