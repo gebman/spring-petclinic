@@ -27,15 +27,22 @@ checkstyle-job:
   stage: checkstyle
   script:
     - "mvn -B checkstyle:checkstyle"
-  rules:
-  - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+  artifacts:
+    paths:
+      - target/*checkstyle*.xml
+    when: on_success
+    expire_in: 30 days
+  only:
+    refs:
+      - merge_request
 
 test-job:
   stage: test
   script:
     - mvn $MAVEN_CLI_OPTS clean test
-  rules:
-  - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+  only:
+    refs:
+      - merge_request
 
 build_jar:
   stage: build
@@ -46,8 +53,10 @@ build_jar:
       - "target/*"
     when: on_success
     expire_in: 30 minutes
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event' || $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  only:
+    refs:
+      - main
+      - merge_request
 
 push_image:
   stage: push_image
