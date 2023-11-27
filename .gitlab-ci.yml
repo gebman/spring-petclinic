@@ -41,14 +41,13 @@ build_jar:
   stage: build
   script:
     - mvn $MAVEN_CLI_OPTS -DskipTests clean package
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   artifacts:
     paths:
       - "target/*"
     when: on_success
     expire_in: 30 minutes
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event' || $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
 push_image:
   stage: push_image
