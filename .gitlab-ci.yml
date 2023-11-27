@@ -54,8 +54,8 @@ push_image:
     entrypoint: [""]
   before_script:
     - 'echo "{ \"auths\": { \"${CONTAINER_REPO}\": { \"auth\": \"${NEXUS_LOGIN}\" } } }" > /kaniko/.docker/config.json'
-    - if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]] then; REPO_BRANCH="main"
-    - if [[ "$CI_COMMIT_BRANCH" == "merge_request_event" ]] then; REPO_BRANCH="mr"
+    - if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then REPO_BRANCH="main";
+    - if [[ "$CI_COMMIT_BRANCH" == "merge_request_event" ]]; then REPO_BRANCH="mr";
   script:
     - /kaniko/executor
       --insecure
