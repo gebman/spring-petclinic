@@ -69,5 +69,4 @@ push_image:
       --destination "${CONTAINER_REPO}/${REPO_BRANCH}:${CI_COMMIT_SHORT_SHA}"
       --destination "${CONTAINER_REPO}/${REPO_BRANCH}:latest"
   rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'merge_request_event' || $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
