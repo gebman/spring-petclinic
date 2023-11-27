@@ -67,5 +67,7 @@ push_image:
       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
       --destination "${CONTAINER_REPO}/${REPO_BRANCH}:${CI_COMMIT_SHORT_SHA}"
       --destination "${CONTAINER_REPO}/${REPO_BRANCH}:latest"
-  rules:
-    - if: $CI_COMMIT_BRANCH == 'merge_request_event' || $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  only:
+    refs:
+      - main
+      - merge_request
