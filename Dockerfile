@@ -16,5 +16,5 @@ COPY --from=build /root/build/target/*.jar /root/petclinic/petclinic.jar
 COPY --from=build /root/build/jmx-config.yaml /root/petclinic/config.yaml
 
 EXPOSE 8080
-EXPOSE 12345
-CMD ["java", "-javaagent:./jmx.jar=12345:config.yaml", "-jar", "petclinic.jar"]
+EXPOSE 9090
+CMD ["java", "-javaagent:./jmx.jar=9090:config.yaml", "-jar", "petclinic.jar"]
