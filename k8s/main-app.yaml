@@ -19,6 +19,29 @@ spec:
         image: mlabecki/spring-petclinic:latest
         ports:
         - containerPort: 8080
+        command: ["java"]
+        args: [ "-Dspring.profiles.active=postgres", "-jar", "petclinic.jar"]
+        env:  
+        - name: POSTGRES_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: main-app-config
+              key: postgres-host
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: main-app-config
+              key: postgres-user
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: main-app-config
+              key: postgres-db
+        - name: POSTGRES_PASS
+          valueFrom:
+            secretKeyRef:
+              name: postgres-postgresql
+              key: postgres-password
 ---
 apiVersion: v1
 kind: Service
@@ -32,3 +55,12 @@ spec:
       port: 80
       targetPort: 8080
   type: LoadBalancer
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: main-app-config
+data:
+  postgres-host: postgres-postgresql
+  postgres-user: postgres
+  postgres-db: postgres
