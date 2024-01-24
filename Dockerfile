@@ -10,11 +10,12 @@ RUN mvn -B clean package
 
 # Prepare the final image
 FROM amazoncorretto:17-al2-native-headless
-ADD https://repo.maven.apache.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.20.0/jmx_prometheus_javaagent-0.20.0.jar /root/petclinic/jmx.jar
+# ADD https://repo.maven.apache.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.20.0/jmx_prometheus_javaagent-0.20.0.jar /root/petclinic/jmx.jar
 WORKDIR /root/petclinic
 COPY --from=build /root/build/target/*.jar /root/petclinic/petclinic.jar
-COPY --from=build /root/build/jmx-config.yaml /root/petclinic/config.yaml
+# COPY --from=build /root/build/jmx-config.yaml /root/petclinic/config.yaml
 
 EXPOSE 8080
 EXPOSE 9090
-CMD ["java", "-javaagent:./jmx.jar=9090:config.yaml", "-jar", "petclinic.jar"]
+# CMD ["java", "-javaagent:./jmx.jar=9090:config.yaml", "-jar", "petclinic.jar"]
+CMD ["java", "-jar", "petclinic.jar"]
